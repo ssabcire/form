@@ -39,7 +39,6 @@ func main() {
 
 func Create() (err error) {
 	_, err = Db.Exec("INSERT INTO tm (name) VALUES ('nyaa')")
-	fmt.Println("test")
 	return
 }
 
