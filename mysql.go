@@ -2,9 +2,7 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
 )
 
 type User struct {
@@ -22,23 +20,8 @@ func init() {
 	}
 }
 
-func main() {
-	err := Create()
-	if err != nil {
-		log.Fatal("Create error!")
-	}
-	fmt.Println("Createできたよ!")
-
-	user, err := GetPost(1)
-	if err != nil {
-		log.Fatal("GetPost error!")
-	}
-	fmt.Print("ID1の値を取得したよ:")
-	fmt.Println(user)
-}
-
 func Create() (err error) {
-	_, err = Db.Exec("INSERT INTO tm (name) VALUES ('nyaa')")
+	_, err = Db.Exec("INSERT INTO tm (name) VALUES ('yama')")
 	return
 }
 
