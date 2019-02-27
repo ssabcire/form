@@ -20,8 +20,14 @@ func init() {
 	}
 }
 
-func Create() (err error) {
-	_, err = Db.Exec("INSERT INTO tm (name) VALUES ('yama')")
+func (user *User) Create() (err error) {
+	//SQLをただ実行するだけ。行を返さない
+	_, err = Db.Exec("INSERT INTO tm (name) VALUES (?)", user.Name)
+	if err != nil {
+		return
+	}
+	//SQLを実行し、1行だけ値を返す。(QueryRowの説明)
+	err = Db.QueryRow("SELECT LAST_INSERT_ID()").Scan(&user.Id)
 	return
 }
 

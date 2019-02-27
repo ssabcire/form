@@ -35,7 +35,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		var user User
 		json.Unmarshal(body, &user)
 	*/
-	err := Create()
+
+	user := User{}
+	//リクエストを解析し、フォームを取得。
+	user.Name = r.PostFormValue("name")
+
+	err := user.Create()
 	if err != nil {
 		log.Fatal("create err")
 	}
