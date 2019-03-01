@@ -20,6 +20,8 @@ func init() {
 	}
 }
 
+//------以下CRUDを行う関数
+
 func (user *User) Create() (err error) {
 	//SQLをただ実行するだけ。行を返さない
 	_, err = Db.Exec("INSERT INTO tm (name) VALUES (?)", user.Name)
@@ -31,8 +33,7 @@ func (user *User) Create() (err error) {
 	return
 }
 
-func GetPost(id int) (user User, err error) {
-	user = User{}
-	err = Db.QueryRow("SELECT id, name FROM tm WHERE id = ?", id).Scan(&user.Id, &user.Name)
+func Delete(id int) (err error) {
+	_, err = Db.Exec("DELETE FROM tm WHERE id = ?", id)
 	return
 }
