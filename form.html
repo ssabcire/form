@@ -9,9 +9,14 @@
 
 <body>
 <div class="container">
+    <ul>
+    {{ range . }}
+        <li>{{ . }}</li>
+    {{ end}}
+    </ul>
     <form method="post" action="/createuser" enctype="application/x-www-form-urlencoded">
         <label>
-            お名前を入力してください<br>
+            追加したいお名前を入力してください<br>
             <input type="text" name="name">
             <input type="submit" name="submit" value="送信">
         </label>

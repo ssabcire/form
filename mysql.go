@@ -20,8 +20,7 @@ func init() {
 	}
 }
 
-//------以下CRUDを行う関数
-
+//------以下CRUDを行う関数------------------
 func (user *User) Create() (err error) {
 	//SQLをただ実行するだけ。行を返さない
 	_, err = Db.Exec("INSERT INTO tm (name) VALUES (?)", user.Name)
@@ -35,5 +34,22 @@ func (user *User) Create() (err error) {
 
 func Delete(id int) (err error) {
 	_, err = Db.Exec("DELETE FROM tm WHERE id = ?", id)
+	return
+}
+
+//すべてのユーザーを得る
+func Users() (users []User, err error) {
+	rows, err := Db.Query("SELECT * FROM tm")
+	if err != nil {
+		return
+	}
+	for rows.Next() {
+		conv := User{}
+		if err = rows.Scan(&conv.Id, &conv.Name); err != nil {
+			return
+		}
+		users = append(users, conv)
+	}
+	rows.Close()
 	return
 }

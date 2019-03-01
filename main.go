@@ -21,14 +21,21 @@ func main() {
 	server.ListenAndServe()
 }
 
+//トップページ
 func index(w http.ResponseWriter, r *http.Request) {
+	//usersはUserすべてを集めたスライス
+	users, err := Users()
+	if err != nil {
+		log.Fatal("users error")
+	}
 	t := template.Must(template.ParseFiles("form.html"))
-	err := t.ExecuteTemplate(w, "form.html", nil)
+	err = t.ExecuteTemplate(w, "form.html", users)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
+//ユーザーを追加するハンドラ関数
 func createUser(w http.ResponseWriter, r *http.Request) {
 	user := User{}
 	//リクエストを解析し、フォームを取得。
@@ -41,6 +48,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 302)
 }
 
+//ユーザーを削除するハンドラ関数
 func delUser(w http.ResponseWriter, r *http.Request) {
 	//削除する関数
 	id, err := strconv.Atoi(r.PostFormValue("id"))
