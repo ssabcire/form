@@ -9,11 +9,18 @@
 
 <body>
 <div class="container">
-    <ul>
-    {{ range . }}
-        <li>{{ . }}</li>
-    {{ end}}
-    </ul>
+    <table border=1>
+        <tr>
+            <td>ID</td>
+            <td>名前</td>
+        </tr>
+        {{ range . }}
+        <tr>
+            <td>{{ .Id }}</td>
+            <td>{{ .Name }}</td>
+        </tr>
+        {{ end}}
+    </table>
     <form method="post" action="/createuser" enctype="application/x-www-form-urlencoded">
         <label>
             追加したいお名前を入力してください<br>
