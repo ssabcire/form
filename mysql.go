@@ -53,3 +53,8 @@ func Users() (users []User, err error) {
 	rows.Close()
 	return
 }
+
+func (user *User) Update() (err error) {
+	Db.Exec("UPDATE tm SET name = ? WHERE id = ?", user.Name, user.Id)
+	return
+}

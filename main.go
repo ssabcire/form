@@ -13,6 +13,7 @@ func main() {
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/createuser", createUser)
 	mux.HandleFunc("/deluser", delUser)
+	mux.HandleFunc("/upduser", updUser)
 
 	server := &http.Server{
 		Addr:    "127.0.0.1:8080",
@@ -28,7 +29,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("users error")
 	}
+	//テンプレートの解析
 	t := template.Must(template.ParseFiles("form.html"))
+	//データに構造体Usersのスライスを渡す。そして、テンプレートform.htmlを実行
 	err = t.ExecuteTemplate(w, "form.html", users)
 	if err != nil {
 		log.Fatal(err)
@@ -60,7 +63,23 @@ func delUser(w http.ResponseWriter, r *http.Request) {
 	}
 	err = Delete(id)
 	if err != nil {
-		log.Fatal("IDデリートエラー")
+		log.Fatal("Deleteエラー")
+	}
+	http.Redirect(w, r, "/", 302)
+}
+
+func updUser(w http.ResponseWriter, r *http.Request) {
+	user := User{}
+	var err error
+	//HTMLからフォームの値を取得、構造体に格納
+	user.Id, err = strconv.Atoi(r.PostFormValue("id"))
+	if err != nil {
+		log.Fatal("upd_Atoi error")
+	}
+	user.Name = r.PostFormValue("name")
+	err = user.Update()
+	if err != nil {
+		log.Fatal("update error")
 	}
 	http.Redirect(w, r, "/", 302)
 }
