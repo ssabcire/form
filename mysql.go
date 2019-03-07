@@ -58,3 +58,29 @@ func (user *User) Update() (err error) {
 	Db.Exec("UPDATE tm SET name = ? WHERE id = ?", user.Name, user.Id)
 	return
 }
+
+//----------- 以下はテスト用の関数 ---
+func DeleteUserAll() (err error) {
+	_, err = Db.Exec("DELETE FROM tm")
+	if err != nil {
+		return
+	}
+	_, err = Db.Exec("UPDATE tm SET id = (@i := @i +1)")
+	if err != nil {
+		return
+	}
+	_, err = Db.Exec("ALTER TABLE tm AUTO_INCREMENT = 1")
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (u *User)UpdateCheck() (err error) {
+	// idを渡して、名前を取得する
+	err = Db.QueryRow("SELECT name from tm WHERE id = ?", u.Id).Scan(&u.Name)
+	if err != nil {
+		return
+	}
+	return
+}
