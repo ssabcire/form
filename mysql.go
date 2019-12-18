@@ -76,7 +76,7 @@ func DeleteUserAll() (err error) {
 	return
 }
 
-func (u *User)UpdateCheck() (err error) {
+func (u *User) UpdateCheck() (err error) {
 	// idを渡して、名前を取得する
 	err = Db.QueryRow("SELECT name from tm WHERE id = ?", u.Id).Scan(&u.Name)
 	if err != nil {
